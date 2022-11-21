@@ -23,14 +23,19 @@ public class LoginController {
     @PostMapping("/login")
     public HttpResult login(@Validated AccountVO account) {
         Account login = accountService.login(account.getUsername(), account.getPassword());
-        StpUtil.login(login.getId());
-        String token = StpUtil.getTokenValue();
-        List<String> permissions = StpUtil.getPermissionList();
-        List<String> roles = StpUtil.getRoleList();
-        return HttpResult.ok()
-                .put("token", token)
-                .put("permissions", permissions)
-                .put("roles", roles);
+        if(login != null){
+            StpUtil.login(login.getId());
+            String token = StpUtil.getTokenValue();
+            List<String> permissions = StpUtil.getPermissionList();
+            List<String> roles = StpUtil.getRoleList();
+            return HttpResult.ok()
+                    .put("token", token)
+                    .put("permissions", permissions)
+                    .put("roles", roles);
+        }else{
+            return HttpResult.error(400,"用户名或密码错误");
+        }
+
     }
 
 }
