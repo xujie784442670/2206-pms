@@ -5,5 +5,7 @@ import request from '@utils/request'
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function login(params){
-    return request.post('/login',params)
+    return request.post('/login',{},{
+        params
+    })
 }
