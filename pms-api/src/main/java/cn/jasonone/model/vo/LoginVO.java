@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
  * @version 1.0.0
  */
 @Data
-public class AccountVO {
+public class LoginVO {
     @NotBlank(message = "用户名不能为空")
     private String username;
     @NotBlank(message = "密码不能为空")

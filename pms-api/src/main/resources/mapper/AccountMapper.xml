@@ -17,11 +17,46 @@
         ID,USERNAME,PASSWORD,
         UPDATE_TIME,CREATE_TIME,STATUS
     </sql>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into account(username, password) values(#{username}, md5(#{password}))
+    </insert>
+    <update id="updateById">
+        update account
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = md5(#{password}),</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from account where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
     <select id="login" resultType="account">
         SELECT
         <include refid="Base_Column_List"/>
         FROM account
         WHERE username = #{username}
           AND password = MD5(#{password})
+    </select>
+    <select id="findAll" resultType="cn.jasonone.model.bean.Account">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM account
+        <where>
+            <if test="username != null and username != ''">username like concat('%',#{username},'%')</if>
+            <if test="status != null">status = #{status}</if>
+            <if test="createTime != null">
+                <if test="createTime.length > 0 and createTime[0] != null">
+                    and create_time &gt;= #{createTime[0],javaType=java.util.Date}
+                </if>
+                <if test="createTime.length > 1 and createTime[1] != null">
+                    and create_time &lt;= #{createTime[1],javaType=java.util.Date}
+                </if>
+            </if>
+        </where>
     </select>
 </mapper>

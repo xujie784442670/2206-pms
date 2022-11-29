@@ -7,6 +7,9 @@ spring:
         url: jdbc:mysql://localhost:3306/2206?serverTimezone=GMT%2b8
         username: root
         password: root
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
 
 # mybatis
 mybatis:
@@ -32,3 +35,39 @@ sa-token:
     # 是否输出操作日志
     is-log: false
 
+# rabbitmq配置
+---
+spring:
+    rabbitmq:
+        host: localhost
+        port: 5672
+
+# 邮箱配置
+---
+spring:
+    mail:
+        host: smtp.exmail.qq.com
+        username: hongmao@jasonone.cn
+        password: Hm@qwe01
+#        properties:
+#            mail.smtp.ssl.enable: true
+#        port: 465
+# redis配置
+---
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+# es 配置
+# pagehelper
+pagehelper:
+    helper-dialect: mysql
+    page-size-zero: true
+    reasonable: true
+logging:
+    level:
+      cn.jasonone.mapper: trace
